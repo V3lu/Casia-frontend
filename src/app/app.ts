@@ -4,9 +4,9 @@ import { RouterOutlet } from '@angular/router';
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet],
-    templateUrl: './app.component.html',
+    templateUrl: './app.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrl: './app.component.scss'
+    styleUrl: './app.scss'
 })
 export class AppComponent {
   title = 'FSM';
