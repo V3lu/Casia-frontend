@@ -4,7 +4,6 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
 
-
 @Component({
   selector: 'app-root',
   imports: [SidebarComponent, FooterComponent, NavbarComponent, RouterOutlet],
