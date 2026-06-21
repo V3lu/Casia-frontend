@@ -1,1 +1,39 @@
-<p>sidebar works!</p>
+<p-drawer [(visible)]="visible" position="left" class="app-sidebar-drawer" [showCloseIcon]="false">
+    <ng-template #header>
+        <div class="sidebar-brand">
+            <img src="CASIA_LOGO_VIBRANT.png" alt="Casia" class="sidebar-brand-logo" />
+        </div>
+    </ng-template>
+
+    <div class="sidebar-shell">
+        <nav class="sidebar-nav" aria-label="Sidebar navigation">
+            @for (item of navItems; track $index) {
+                <a
+                    pRipple
+                    [routerLink]="item.route"
+                    class="sidebar-nav-item"
+                    [class.sidebar-nav-item-active]="isActive(item.route)"
+                    (click)="visible.set(false)"
+                >
+                    <i [class]="item.icon"></i>
+                    <span>{{ item.label }}</span>
+                </a>
+            }
+        </nav>
+
+        <div class="sidebar-footer">
+            <p-divider></p-divider>
+
+            <div class="sidebar-user">
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+                <div class="sidebar-user-text">
+                    <span class="sidebar-user-name">Admin</span>
+                    <span class="sidebar-user-role">Store Manager</span>
+                </div>
+                <i class="pi pi-chevron-down sidebar-user-chevron"></i>
+            </div>
+        </div>
+    </div>
+</p-drawer>
+
+<div class="sidebar-enterer" (mouseenter)="visible.set(!visible())"></div>

@@ -24,6 +24,7 @@
     "@primeuix/themes": "^2.0.3",
     "ag-grid-angular": "^35.3.1",
     "express": "^4.18.2",
+    "primeicons": "^7.0.0",
     "primeng": "^21.1.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
