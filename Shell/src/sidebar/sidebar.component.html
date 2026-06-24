@@ -23,14 +23,12 @@
 
         <div class="sidebar-footer">
             <p-divider></p-divider>
-
             <div class="sidebar-user">
                 <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
                 <div class="sidebar-user-text">
-                    <span class="sidebar-user-name">Admin</span>
-                    <span class="sidebar-user-role">Store Manager</span>
+                    <span class="sidebar-user-name">{{ userFirstName() }} {{ userLastName() }}</span>
+                    <span class="sidebar-user-role">{{ userRole() }}</span>
                 </div>
-                <i class="pi pi-chevron-down sidebar-user-chevron"></i>
             </div>
         </div>
     </div>

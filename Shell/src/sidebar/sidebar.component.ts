@@ -6,16 +6,23 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { DrawerModule } from 'primeng/drawer';
 import { RippleModule } from 'primeng/ripple';
+import { CurrentUserService } from 'Shared/Services';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [AvatarModule, ButtonModule, CardModule, DividerModule, DrawerModule, RippleModule, RouterLink],
+  imports: [AvatarModule, ButtonModule, CardModule, DividerModule, DrawerModule, RippleModule, RouterLink, FloatLabelModule, InputTextModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
   private readonly router = inject(Router);
+  private readonly currentUserService = inject(CurrentUserService);
 
+  readonly userFirstName = signal<string>('');
+  readonly userLastName = signal<string>('');
+  readonly userRole = signal<string>('');
   visible = signal<boolean>(false);
 
   navItems = [
@@ -35,5 +42,18 @@ export class SidebarComponent {
 
   isActive(route: string): boolean {
     return this.router.url === route;
+  }
+
+  constructor() {
+    this.currentUserService.setCurrentUser({
+      id: '1',
+      role: 'Admin',
+      firstName: 'Adam',
+      lastName: 'Doe',
+    });
+
+    this.userFirstName.set(this.currentUserService.getCurrentUser()?.firstName || '');
+    this.userLastName.set(this.currentUserService.getCurrentUser()?.lastName || '');
+    this.userRole.set(this.currentUserService.getCurrentUser()?.role || '');
   }
 }
