@@ -1,16 +1,118 @@
-<div class="card">
-    <p-toolbar>
-        <ng-template #start>
-            <div class="flex items-center gap-2">
-                <p-button label="Files" text plain />
-                <p-button label="Edit" text plain />
-                <p-button label="View" text plain />
+<p-splitter class="mb-8" [panelSizes]="[18, 64, 18]" [layout]="'horizontal'" [gutterSize]="0">
+    <ng-template #panel>
+        <div class="panel1">
+            <div class="mb-4 p-8">
+                <p-card class="dashboard-card">
+                    <ng-template #title> 
+                        <div class="title-text">
+                            Dashboard
+                        </div>    
+                    </ng-template>
+                    <ng-template #subtitle> 
+                        <div class="subtitle-text">
+                            Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #panel>
+        <div class="panel2">
+            <div class="card flex flex-wrap justify-center items-end gap-4">
+                <p-floatlabel variant="on" >
+                    <p-iconfield>
+                        <p-inputicon class="pi pi-search" />
+                        <input pInputText id="on_label" autocomplete="off" pSize="large" [style]="'width: 30rem; border-radius: 1rem;'"/>
+                    </p-iconfield>
+                    <label for="on_label">Search dashboard</label>
+                </p-floatlabel>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #panel>
+        <div class="panel3">
+            <div class="icons">
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"/>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"/>
+            </div>
+            <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" selectionMode="range" appendTo="body" [style]="'height: 30%;'" [placeholder]="'Filter by date range'"></p-datepicker>
+        </div>
+    </ng-template>
+</p-splitter>
+
+<p-panel [style]="'height: 51rem; width: 100%; margin-top: 1.2rem; background-color: #0b0b0b; border: none;'">
+    <p-splitter class="mb-8" [panelSizes]="[25, 25, 25, 25]" [layout]="'horizontal'" [gutterSize]="0">
+        <ng-template #panel>
+            <div class="panel1">
+                <p-panel>
+                    <p-splitter [panelSizes]="[25, 50, 25]" [layout]="'horizontal'" [gutterSize]="0">
+                        <ng-template #panel>
+                            ICON
+                        </ng-template>
+                        <ng-template #panel>
+                            DATA
+                        </ng-template>
+                        <ng-template #panel>
+                            CHART
+                        </ng-template>
+                    </p-splitter>
+                </p-panel>
             </div>
         </ng-template>
-        <ng-template #end>
-            <div class="flex items-center gap-2">
-                <p-button label="Share" severity="contrast" size="small" />
+        <ng-template #panel>
+            <div class="panel1">
+                <div class="mb-4 p-8">
+                    <p-card class="dashboard-card">
+                        <ng-template #title> 
+                            <div class="title-text">
+                                Dashboard
+                            </div>    
+                        </ng-template>
+                        <ng-template #subtitle> 
+                            <div class="subtitle-text">
+                                Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
             </div>
         </ng-template>
-    </p-toolbar>
-</div>
+        <ng-template #panel>
+            <div class="panel1">
+                <div class="mb-4 p-8">
+                    <p-card class="dashboard-card">
+                        <ng-template #title> 
+                            <div class="title-text">
+                                Dashboard
+                            </div>    
+                        </ng-template>
+                        <ng-template #subtitle> 
+                            <div class="subtitle-text">
+                                Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #panel>
+            <div class="panel1">
+                <div class="mb-4 p-8">
+                    <p-card class="dashboard-card">
+                        <ng-template #title> 
+                            <div class="title-text">
+                                Dashboard
+                            </div>    
+                        </ng-template>
+                        <ng-template #subtitle> 
+                            <div class="subtitle-text">
+                                Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+            </div>
+        </ng-template>
+    </p-splitter>
+</p-panel>
