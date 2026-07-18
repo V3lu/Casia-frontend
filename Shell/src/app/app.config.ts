@@ -4,8 +4,9 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
-
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+  
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), providePrimeNG({ theme: { preset: Aura } }), provideClientHydration(withNoIncrementalHydration())]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), providePrimeNG({ theme: { preset: Aura } }), provideClientHydration(withNoIncrementalHydration()), provideCharts(withDefaultRegisterables())]
 };
