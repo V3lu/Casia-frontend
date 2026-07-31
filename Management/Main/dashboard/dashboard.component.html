@@ -1,150 +1,127 @@
-<p-splitter class="mb-8" [panelSizes]="[18, 64, 18]" [layout]="'horizontal'" [gutterSize]="0">
-    <ng-template #panel>
-        <div class="panel1">
-            <div class="mb-4 p-8">
-                <p-card class="dashboard-card">
-                    <ng-template #title> 
-                        <div class="title-text">Dashboard</div>    
-                    </ng-template>
-                    <ng-template #subtitle> 
-                        <div class="subtitle-text">
-                            Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏
-                        </div>
-                    </ng-template>
-                </p-card>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Dashboard</h2>
+                    <p>Welcome back, {{ currentUserService.getCurrentUser()?.firstName }}! 👏</p>
+                </div>
             </div>
-        </div>
-    </ng-template>
-    <ng-template #panel>
-        <div class="panel2">
-            <div class="card flex flex-wrap justify-center items-end gap-4">
-                <p-floatlabel variant="on">
-                    <p-iconfield>
-                        <p-inputicon class="pi pi-search" />
-                        <input pInputText id="on_label" autocomplete="off" pSize="large" [style]="'width: 30rem; border-radius: 1rem;'"/>
-                    </p-iconfield>
-                    <label for="on_label">Search dashboard</label>
-                </p-floatlabel>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template #panel>
-        <div class="panel3">
-            <div class="icons">
-                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"/>
-                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"/>
-            </div>
-            <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" selectionMode="range" appendTo="body" [style]="'height: 30%;'" [placeholder]="'Filter by date range'"></p-datepicker>
-        </div>
-    </ng-template>
-</p-splitter>
+        </ng-template>
 
-<div class="main-panel">
-    <p-splitter class="mb-8" [panelSizes]="[25, 25, 25, 25]" [layout]="'horizontal'" [gutterSize]="0">
-        <!-- Card 1 — Total Sales -->
-        <ng-template #panel>
-            <div class="panel1">
-                <div class="flight-card">
-                    <div class="flight-card__icon">
-                        <i class="pi pi-send"></i>
-                    </div>
-                    <div class="flight-card__info">
-                        <span class="flight-card__label">Total Sales</span>
-                        <span class="flight-card__value">$24,530.50</span>
-                        <span class="flight-card__change positive">↑ 18.6% vs last week</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'line'"></canvas>
-                    </div>
-                </div>
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search dashboard" />
             </div>
         </ng-template>
-        <!-- Card 2 — Total Orders -->
-        <ng-template #panel>
-            <div class="panel1">
-                <div class="flight-card">
-                    <div class="flight-card__icon">
-                        <i class="pi pi-clipboard"></i>
-                    </div>
-                    <div class="flight-card__info">
-                        <span class="flight-card__label">Total Orders</span>
-                        <span class="flight-card__value">320</span>
-                        <span class="flight-card__change positive">↑ 12.4% vs last week</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'line'"></canvas>
-                    </div>
-                </div>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="dashboardRange" selectionMode="range" appendTo="body" [placeholder]="'Filter by date range'"></p-datepicker>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
             </div>
         </ng-template>
-        <!-- Card 3 — Total Products -->
-        <ng-template #panel>
-            <div class="panel1">
-                <div class="flight-card">
-                    <div class="flight-card__icon">
-                        <i class="pi pi-box"></i>
+    </p-toolbar>
+
+    <div class="hero-grid">
+        <p-card class="hero-card">
+            <ng-template #title>Operations overview</ng-template>
+            <ng-template #subtitle>Everything important in one place for your team.</ng-template>
+            <div class="hero-card__body">
+                <div class="hero-card__summary">
+                    <span class="hero-pill">+18.6%</span>
+                    <div class="hero-metric">
+                        <strong>14.8K</strong>
+                        <span>Revenue</span>
                     </div>
-                    <div class="flight-card__info">
-                        <span class="flight-card__label">Total Products</span>
-                        <span class="flight-card__value">1,245</span>
-                        <span class="flight-card__change positive">↑ 8.7% vs last week</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'line'"></canvas>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-        <!-- Card 4 — Low Stock Items -->
-        <ng-template #panel>
-            <div class="panel1">
-                <div class="flight-card">
-                    <div class="flight-card__icon warning">
-                        <i class="pi pi-exclamation-triangle"></i>
-                    </div>
-                    <div class="flight-card__info">
-                        <span class="flight-card__label">Low Stock Items</span>
-                        <span class="flight-card__value">23</span>
-                        <span class="flight-card__change negative">↓ 6.3% vs last week</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="barChartDataNegative" [options]="barChartOptions" [type]="'line'"></canvas>
+                    <div class="hero-metric">
+                        <strong>312</strong>
+                        <span>Orders</span>
                     </div>
                 </div>
-            </div>
-        </ng-template>
-    </p-splitter>
-    <p-splitter class="mb-8" [panelSizes]="[57, 43]" [layout]="'horizontal'" [gutterSize]="0">
-        <ng-template #panel>
-            <div class="panel4">
-                <div class="flight-card">
-                    <div class="flight-card__icon">
-                        <i class="pi pi-clipboard"></i>
-                    </div>
-                    <div class="flight-card__info">
-                        <span class="flight-card__label">Total Orders</span>
-                        <span class="flight-card__value">320</span>
-                        <span class="flight-card__change positive">↑ 12.4% vs last week</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'line'"></canvas>
-                    </div>
+                <div class="hero-card__chart">
+                    <p-chart type="line" [data]="revenueChartData" [options]="chartOptions"></p-chart>
                 </div>
             </div>
-        </ng-template>
-        <ng-template #panel>
-            <div class="panel5">
-                <div class="card flex flex-wrap justify-center items-end gap-4">
-                    <p-floatlabel variant="on">
-                        <p-iconfield>
-                            <p-inputicon class="pi pi-search" />
-                            <input pInputText id="on_label" autocomplete="off" pSize="large" [style]="'width: 30rem; border-radius: 1rem;'"/>
-                        </p-iconfield>
-                        <label for="on_label">Search dashboard</label>
-                    </p-floatlabel>
+        </p-card>
+
+        <p-card class="focus-card">
+            <ng-template #title>Today’s focus</ng-template>
+            <div class="focus-card__body">
+                <div class="focus-item">
+                    <span class="focus-item__label">Inventory health</span>
+                    <strong>92%</strong>
+                </div>
+                <div class="focus-item">
+                    <span class="focus-item__label">Pending tasks</span>
+                    <strong>7</strong>
+                </div>
+                <div class="focus-item">
+                    <span class="focus-item__label">Supplier lead time</span>
+                    <strong>2.4 days</strong>
                 </div>
             </div>
-        </ng-template>
-    </p-splitter>
+            <p-divider></p-divider>
+            <p-button label="View full report" severity="secondary"></p-button>
+        </p-card>
+    </div>
+
+    <div class="stats-grid">
+        @for (card of summaryCards; track card.title) {
+            <p-card class="summary-card">
+                <div class="summary-card__body">
+                    <div class="summary-card__icon" [class.warning]="card.warning">
+                        <i [class]="card.icon"></i>
+                    </div>
+                    <div class="summary-card__text">
+                        <span>{{ card.title }}</span>
+                        <strong>{{ card.value }}</strong>
+                        <small [class.positive]="card.positive" [class.negative]="!card.positive">{{ card.change }}</small>
+                    </div>
+                    <div class="summary-card__chart">
+                        <p-chart type="line" [data]="card.chartData" [options]="sparklineOptions"></p-chart>
+                    </div>
+                </div>
+            </p-card>
+        }
+    </div>
+
+    <div class="content-grid">
+        <p-card class="overview-card">
+            <ng-template #title>Revenue overview</ng-template>
+            <div class="overview-card__body">
+                <div class="overview-card__summary">
+                    <p class="overview-label">Weekly performance</p>
+                    <h3>$68.4K</h3>
+                    <p>Revenue continues to trend upward across all channels.</p>
+                </div>
+                <div class="overview-card__chart">
+                    <p-chart type="line" [data]="revenueChartData" [options]="chartOptions"></p-chart>
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="activity-card">
+            <ng-template #title>Recent activity</ng-template>
+            <p-table [value]="recentActivity" [rows]="4" [paginator]="false" styleClass="activity-table">
+                <ng-template #header>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-item>
+                    <tr>
+                        <td>{{ item.action }}</td>
+                        <td><p-tag [severity]="item.severity">{{ item.status }}</p-tag></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
 </div>
 

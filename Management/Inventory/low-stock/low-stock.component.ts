@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
 
 @Component({
   selector: 'app-low-stock',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './low-stock.component.scss',
 })
 export class LowStockComponent {
-
+  readonly inventoryAPIConnector = inject(InventoryAPIConnectorService);
 }

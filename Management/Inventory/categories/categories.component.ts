@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
 
 @Component({
   selector: 'app-categories',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-
+  readonly inventoryAPIConnector = inject(InventoryAPIConnectorService)
 }

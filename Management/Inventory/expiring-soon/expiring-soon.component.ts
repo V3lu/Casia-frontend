@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
 
 @Component({
   selector: 'app-expiring-soon',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './expiring-soon.component.scss',
 })
 export class ExpiringSoonComponent {
-
+  readonly inventoryAPIConnector = inject(InventoryAPIConnectorService);
 }
