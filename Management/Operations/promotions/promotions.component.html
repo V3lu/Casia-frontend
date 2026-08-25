@@ -1,1 +1,52 @@
-<p>promotions works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Promotions</h2>
+                    <p>Plan campaigns and discount strategies across channels.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search promotions" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-plus" label="Create campaign" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Campaign summary</ng-template>
+            <ng-template #subtitle>Upcoming offers and promotional performance.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Active campaigns</span>
+                        <strong>5</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Engagement</span>
+                        <strong>24.6%</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>CTR</span>
+                        <strong>6.1%</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

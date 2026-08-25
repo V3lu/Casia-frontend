@@ -1,1 +1,52 @@
-<p>low-stock works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Low stock</h2>
+                    <p>Keep a close eye on items that need replenishment.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search low stock" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-download" label="Export" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Stock health</ng-template>
+            <ng-template #subtitle>Products running below your preferred threshold.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Below target</span>
+                        <strong>31</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Reorder queue</span>
+                        <strong>12</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Urgent</span>
+                        <strong>7</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

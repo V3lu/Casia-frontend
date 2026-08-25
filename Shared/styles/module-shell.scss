@@ -1,0 +1,142 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+  color: #f5f7fa;
+  background:
+    radial-gradient(circle at top left, rgba(95, 224, 164, 0.18), transparent 23rem),
+    linear-gradient(135deg, #05080b 0%, #0d141c 100%);
+}
+
+.dashboard-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  min-height: calc(100vh - 2rem);
+  padding: 1.2rem 1.4rem 1.4rem;
+}
+
+:host ::ng-deep .p-card,
+:host ::ng-deep .p-toolbar {
+  background: rgba(11, 16, 22, 0.95);
+  border: 1px solid #23313a;
+  border-radius: 1.25rem;
+}
+
+.top-toolbar {
+  padding: 0.85rem 1rem;
+}
+
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.toolbar-brand__dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5fe0a4, #2bbd74);
+}
+
+.toolbar-brand h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.toolbar-brand p {
+  margin: 0.15rem 0 0;
+  color: #8ea0b0;
+  font-size: 0.9rem;
+}
+
+.toolbar-search {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 20rem;
+  padding: 0.72rem 0.95rem;
+  border: 1px solid #26333d;
+  border-radius: 999px;
+  background: #10171f;
+}
+
+.toolbar-search i {
+  color: #8ea0b0;
+}
+
+.toolbar-search input {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: #f5f7fa;
+  background: transparent;
+  box-shadow: none;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.module-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.module-card {
+  min-height: 14rem;
+}
+
+.module-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 10rem;
+}
+
+.summary-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.summary-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 7rem;
+  padding: 1rem;
+  border: 1px solid #253340;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.summary-tile span {
+  color: #8ea0b0;
+  font-size: 0.85rem;
+}
+
+.summary-tile strong {
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+@media (max-width: 900px) {
+  .top-toolbar {
+    display: block;
+  }
+
+  .toolbar-search {
+    min-width: 12rem;
+    margin-top: 0.8rem;
+  }
+
+  .summary-stack {
+    grid-template-columns: 1fr;
+  }
+}

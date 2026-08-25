@@ -1,1 +1,52 @@
-<p>suppliers works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Suppliers</h2>
+                    <p>Coordinate vendor relationships and fulfillment data.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search suppliers" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-plus" label="Add supplier" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Supplier network</ng-template>
+            <ng-template #subtitle>Delivery performance and vendor coordination snapshot.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Active suppliers</span>
+                        <strong>28</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>On-time delivery</span>
+                        <strong>94%</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Follow-ups</span>
+                        <strong>6</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

@@ -1,1 +1,52 @@
-<p>expiring-soon works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Expiring soon</h2>
+                    <p>Track items nearing their expiry threshold.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search expiring stock" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-filter" label="Filter" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Inventory check</ng-template>
+            <ng-template #subtitle>Monitors the next items that need action.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Due in 7 days</span>
+                        <strong>46</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Critical</span>
+                        <strong>9</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Resolved</span>
+                        <strong>12</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

@@ -1,1 +1,52 @@
-<p>analytics works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Analytics</h2>
+                    <p>Measure your business trends and operational signals.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search analytics" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-calendar" label="Range" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Performance overview</ng-template>
+            <ng-template #subtitle>A quick snapshot of the latest operational trends.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Revenue</span>
+                        <strong>$68.4K</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Orders</span>
+                        <strong>1,284</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Conversion</span>
+                        <strong>7.8%</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

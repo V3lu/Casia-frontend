@@ -1,1 +1,52 @@
-<p>categories works!</p>
+<div class="dashboard-shell">
+    <p-toolbar class="top-toolbar">
+        <ng-template #start>
+            <div class="toolbar-brand">
+                <div class="toolbar-brand__dot"></div>
+                <div>
+                    <h2>Categories</h2>
+                    <p>Organize your inventory into clean product groups.</p>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="toolbar-search">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search categories" />
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="toolbar-actions">
+                <p-button icon="pi pi-plus" label="New" severity="secondary"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
+            </div>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="module-grid">
+        <p-card class="module-card">
+            <ng-template #title>Overview</ng-template>
+            <ng-template #subtitle>Quick summary of the current category set.</ng-template>
+            <div class="module-card__body">
+                <div class="summary-stack">
+                    <div class="summary-tile">
+                        <span>Total groups</span>
+                        <strong>18</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Active</span>
+                        <strong>14</strong>
+                    </div>
+                    <div class="summary-tile">
+                        <span>Pending review</span>
+                        <strong>4</strong>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
