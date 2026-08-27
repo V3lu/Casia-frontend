@@ -13,4 +13,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 })
 export class SuppliersComponent {
 
+  readonly summaryTiles = [
+    { label: 'Active suppliers', value: '28', note: 'Vendors currently in rotation' },
+    { label: 'On-time delivery', value: '94%', note: 'Average across all partners' },
+    { label: 'Follow-ups', value: '6', note: 'Open vendor reminders' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Northline', value: '98% on time', note: 'Best performer this month' },
+    { name: 'Green Peak', value: '91% on time', note: 'Stable produce vendor' },
+    { name: 'Atlas Foods', value: '87% on time', note: 'Needs routing review' },
+  ];
+
 }

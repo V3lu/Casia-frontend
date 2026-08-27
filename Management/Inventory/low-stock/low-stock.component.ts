@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToolbarModule } from 'primeng/toolbar';
-import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
 
 @Component({
   selector: 'app-low-stock',
@@ -13,5 +12,15 @@ import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconne
   styleUrl: './low-stock.component.scss',
 })
 export class LowStockComponent {
-  readonly inventoryAPIConnector = inject(InventoryAPIConnectorService);
+  readonly summaryTiles = [
+    { label: 'Below target', value: '31', note: 'Products under threshold' },
+    { label: 'Reorder queue', value: '12', note: 'Ready for purchase orders' },
+    { label: 'Urgent', value: '7', note: 'Needs action today' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Disinfectant spray', value: '18 short', note: 'Fastest-moving shortage' },
+    { name: 'Thermal labels', value: '9 short', note: 'Support tickets affected' },
+    { name: 'Return bags', value: '6 short', note: 'Reserve stock now' },
+  ];
 }

@@ -13,4 +13,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 })
 export class PromotionsComponent {
 
+  readonly summaryTiles = [
+    { label: 'Active campaigns', value: '5', note: 'Running across channels' },
+    { label: 'Engagement', value: '24.6%', note: 'Audience interaction rate' },
+    { label: 'CTR', value: '6.1%', note: 'Click-through on creatives' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Spring bundle', value: '18% off', note: 'Ends in 4 days' },
+    { name: 'Clearance push', value: '120 products', note: 'Inventory cleanup focus' },
+    { name: 'Loyalty boost', value: '3.2K redemptions', note: 'Best performing segment' },
+  ];
+
 }

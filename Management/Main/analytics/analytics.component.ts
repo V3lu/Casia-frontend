@@ -13,4 +13,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 })
 export class AnalyticsComponent {
 
+  readonly summaryTiles = [
+    { label: 'Revenue', value: '$68.4K', note: 'Up from last cycle' },
+    { label: 'Orders', value: '1,284', note: 'Across all channels' },
+    { label: 'Conversion', value: '7.8%', note: 'Tracked over 30 days' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Web traffic', value: '42%', note: 'Largest acquisition source' },
+    { name: 'Retail traffic', value: '31%', note: 'Strong in-store visits' },
+    { name: 'Wholesale', value: '27%', note: 'Stable partner volume' },
+  ];
+
 }

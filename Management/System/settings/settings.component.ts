@@ -13,4 +13,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 })
 export class SettingsComponent {
 
+  readonly summaryTiles = [
+    { label: 'Profiles', value: '6', note: 'Business and environment profiles' },
+    { label: 'Rules', value: '18', note: 'Automation and validation rules' },
+    { label: 'Pending updates', value: '3', note: 'Items waiting for approval' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Currency', value: 'USD', note: 'Primary display format' },
+    { name: 'Tax region', value: 'Enabled', note: 'Local compliance active' },
+    { name: 'Auto-sync', value: 'On', note: 'Background refresh every hour' },
+  ];
+
 }

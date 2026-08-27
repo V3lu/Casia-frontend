@@ -27,24 +27,37 @@
         </ng-template>
     </p-toolbar>
 
-    <div class="module-grid">
+    <div class="module-grid module-grid--split">
         <p-card class="module-card">
             <ng-template #title>Inventory check</ng-template>
             <ng-template #subtitle>Monitors the next items that need action.</ng-template>
             <div class="module-card__body">
                 <div class="summary-stack">
-                    <div class="summary-tile">
-                        <span>Due in 7 days</span>
-                        <strong>46</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>Critical</span>
-                        <strong>9</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>Resolved</span>
-                        <strong>12</strong>
-                    </div>
+                    @for (tile of summaryTiles; track tile.label) {
+                        <div class="summary-tile">
+                            <span>{{ tile.label }}</span>
+                            <strong>{{ tile.value }}</strong>
+                            <small>{{ tile.note }}</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="module-card">
+            <ng-template #title>Expiry spotlight</ng-template>
+            <ng-template #subtitle>Mocked rows for the highest-priority stock checks.</ng-template>
+            <div class="module-card__body module-card__body--top">
+                <div class="detail-stack">
+                    @for (row of detailRows; track row.name) {
+                        <div class="detail-row">
+                            <div class="detail-row__meta">
+                                <span>{{ row.name }}</span>
+                                <small>{{ row.note }}</small>
+                            </div>
+                            <strong class="detail-row__value">{{ row.value }}</strong>
+                        </div>
+                    }
                 </div>
             </div>
         </p-card>

@@ -13,4 +13,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 })
 export class SalesComponent {
 
+  readonly summaryTiles = [
+    { label: 'Gross sales', value: '$24.5K', note: 'Collected this period' },
+    { label: 'Orders', value: '320', note: 'Completed transactions' },
+    { label: 'Avg. basket', value: '$76.50', note: 'Average order value' },
+  ];
+
+  readonly detailRows = [
+    { name: 'Online channel', value: '58%', note: 'Largest sales mix' },
+    { name: 'Storefront', value: '29%', note: 'Strong foot traffic' },
+    { name: 'Marketplace', value: '13%', note: 'Selective fulfillment' },
+  ];
+
 }

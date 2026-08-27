@@ -27,24 +27,37 @@
         </ng-template>
     </p-toolbar>
 
-    <div class="module-grid">
+    <div class="module-grid module-grid--split">
         <p-card class="module-card">
             <ng-template #title>Performance overview</ng-template>
             <ng-template #subtitle>A quick snapshot of the latest operational trends.</ng-template>
             <div class="module-card__body">
                 <div class="summary-stack">
-                    <div class="summary-tile">
-                        <span>Revenue</span>
-                        <strong>$68.4K</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>Orders</span>
-                        <strong>1,284</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>Conversion</span>
-                        <strong>7.8%</strong>
-                    </div>
+                    @for (tile of summaryTiles; track tile.label) {
+                        <div class="summary-tile">
+                            <span>{{ tile.label }}</span>
+                            <strong>{{ tile.value }}</strong>
+                            <small>{{ tile.note }}</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="module-card">
+            <ng-template #title>Audience mix</ng-template>
+            <ng-template #subtitle>Mocked channel data that explains the trend line.</ng-template>
+            <div class="module-card__body module-card__body--top">
+                <div class="detail-stack">
+                    @for (row of detailRows; track row.name) {
+                        <div class="detail-row">
+                            <div class="detail-row__meta">
+                                <span>{{ row.name }}</span>
+                                <small>{{ row.note }}</small>
+                            </div>
+                            <strong class="detail-row__value">{{ row.value }}</strong>
+                        </div>
+                    }
                 </div>
             </div>
         </p-card>

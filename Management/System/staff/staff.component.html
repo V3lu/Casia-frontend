@@ -27,24 +27,37 @@
         </ng-template>
     </p-toolbar>
 
-    <div class="module-grid">
+    <div class="module-grid module-grid--split">
         <p-card class="module-card">
             <ng-template #title>Team overview</ng-template>
             <ng-template #subtitle>Current staffing readiness and operational coverage.</ng-template>
             <div class="module-card__body">
                 <div class="summary-stack">
-                    <div class="summary-tile">
-                        <span>Active members</span>
-                        <strong>24</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>On shift</span>
-                        <strong>14</strong>
-                    </div>
-                    <div class="summary-tile">
-                        <span>Open roles</span>
-                        <strong>3</strong>
-                    </div>
+                    @for (tile of summaryTiles; track tile.label) {
+                        <div class="summary-tile">
+                            <span>{{ tile.label }}</span>
+                            <strong>{{ tile.value }}</strong>
+                            <small>{{ tile.note }}</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </p-card>
+
+        <p-card class="module-card">
+            <ng-template #title>Coverage snapshot</ng-template>
+            <ng-template #subtitle>Mocked shift data for the current staffing plan.</ng-template>
+            <div class="module-card__body module-card__body--top">
+                <div class="detail-stack">
+                    @for (row of detailRows; track row.name) {
+                        <div class="detail-row">
+                            <div class="detail-row__meta">
+                                <span>{{ row.name }}</span>
+                                <small>{{ row.note }}</small>
+                            </div>
+                            <strong class="detail-row__value">{{ row.value }}</strong>
+                        </div>
+                    }
                 </div>
             </div>
         </p-card>
