@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
+import { Service } from '@angular/core';
+import { environment } from '../Environment';
+import { ApiConnectorBaseService } from './api-connector-base.service';
 
 @Service()
-export class SystemAPIConnectorService {
-  readonly http = inject(HttpClient);  
+export class SystemAPIConnectorService extends ApiConnectorBaseService {
+  protected readonly baseUrl = environment.systemApiUrl;
 }
