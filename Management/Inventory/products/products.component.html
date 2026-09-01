@@ -13,13 +13,13 @@
         <ng-template #center>
             <div class="toolbar-search">
                 <i class="pi pi-search"></i>
-                <input pInputText placeholder="Search products" />
+                <input pInputText placeholder="Search products" [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" />
             </div>
         </ng-template>
 
         <ng-template #end>
             <div class="toolbar-actions">
-                <p-button icon="pi pi-plus" label="Add item" severity="secondary"></p-button>
+                <p-button icon="pi pi-plus" label="Add item" severity="secondary" (onClick)="openNewProduct()"></p-button>
                 <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
@@ -62,4 +62,86 @@
             </div>
         </p-card>
     </div>
+
+    <p-card class="module-card inventory-table-card">
+        <ng-template #title>Inventory list</ng-template>
+        <ng-template #subtitle>Tracks name, category, stock, price, and expiry status.</ng-template>
+
+        <div class="inventory-table-wrapper">
+            <p-table [value]="filteredProducts" [paginator]="true" [rows]="8" [tableStyle]="{ 'min-width': '100%' }">
+                <ng-template #header>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Expiry</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template #body let-product>
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.categoryName ?? product.categoryId }}</td>
+                        <td>{{ product.stockQuantity ?? 0 }}</td>
+                        <td>{{ (product.price ?? 0) | currency:'USD':'symbol':'1.2-2' }}</td>
+                        <td>
+                            <p-tag [value]="getInventoryStatus(product)" [severity]="getSeverity(product)"></p-tag>
+                        </td>
+                        <td>{{ product.expiryDate | date:'mediumDate' }}</td>
+                        <td>
+                            <div class="table-actions">
+                                <p-button icon="pi pi-pencil" [text]="true" severity="secondary" (onClick)="openEditProduct(product)"></p-button>
+                                <p-button icon="pi pi-trash" [text]="true" severity="danger" (onClick)="deleteProduct(product.id)"></p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+    <p-dialog [(visible)]="showProductDialog" [modal]="true" [draggable]="false" [resizable]="false" header="Product details" [style]="{ width: '32rem' }">
+        <div class="product-form">
+            <div class="field">
+                <label>Name</label>
+                <input pInputText [(ngModel)]="productDraft.name" name="name" placeholder="Product name" />
+            </div>
+
+            <div class="field">
+                <label>Category</label>
+                <select class="category-select" [(ngModel)]="productDraft.categoryId" name="categoryId">
+                    <option value="">Select a category</option>
+                    @for (category of categories; track category.id) {
+                        <option [value]="category.id">{{ category.name }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="field field-grid">
+                <div>
+                    <label>Stock</label>
+                    <input pInputText type="number" [(ngModel)]="productDraft.stockQuantity" name="stockQuantity" min="0" />
+                </div>
+                <div>
+                    <label>Price</label>
+                    <input pInputText type="number" [(ngModel)]="productDraft.price" name="price" min="0" step="0.01" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Expiry date</label>
+                <input pInputText type="date" [(ngModel)]="productDraft.expiryDate" name="expiryDate" />
+            </div>
+        </div>
+
+        <ng-template #footer>
+            <div class="dialog-actions">
+                <p-button label="Cancel" severity="secondary" [text]="true" (onClick)="showProductDialog = false"></p-button>
+                <p-button label="Save" (onClick)="saveProduct()"></p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
 </div>

@@ -3,6 +3,10 @@ export interface ProductDto {
   name: string;
   expiryDate: string;
   categoryId: string;
+  categoryName?: string;
+  stockQuantity?: number;
+  price?: number;
+  status?: string;
 }
 
 export interface CategoryDto {
@@ -12,9 +16,12 @@ export interface CategoryDto {
 }
 
 export interface AddProductRequest {
-  id: string;
+  id?: string;
   name: string;
   expiryDate: string | Date;
+  categoryId?: string;
+  stockQuantity?: number;
+  price?: number;
 }
 
 export interface AddCategoryRequest {

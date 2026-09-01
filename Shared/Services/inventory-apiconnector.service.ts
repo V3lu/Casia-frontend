@@ -34,6 +34,14 @@ export class InventoryAPIConnectorService extends ApiConnectorBaseService {
     return this.post<CommandResponse<string>, AddProductRequest>('api/InventoryPost/addProduct', request);
   }
 
+  updateProduct(request: AddProductRequest): Observable<CommandResponse<ProductDto>> {
+    return this.put<CommandResponse<ProductDto>, AddProductRequest>('api/InventoryPut/updateProduct', request);
+  }
+
+  deleteProduct(id: string): Observable<CommandResponse<string>> {
+    return this.delete<CommandResponse<string>>(`api/InventoryDelete/products/${id}`);
+  }
+
   addCategory(request: AddCategoryRequest): Observable<CommandResponse<CategoryDto>> {
     return this.post<CommandResponse<CategoryDto>, AddCategoryRequest>('api/InventoryPost/addCategory', request);
   }
