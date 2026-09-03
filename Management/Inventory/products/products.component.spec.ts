@@ -18,6 +18,6 @@ describe('ProductsComponent', () => {
   });
 
   it('should load product data on init', () => {
-    expect(component.products.length).toBeGreaterThan(0);
+    expect(component.products().length).toBeGreaterThan(0);
   });
 });

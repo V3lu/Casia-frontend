@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -46,9 +46,22 @@ export class ProductsComponent implements OnInit {
     { name: 'Accessory line', value: '14 units', note: 'Update pricing copy' },
   ];
 
-  products: ProductDto[] = [];
-  filteredProducts: ProductDto[] = [];
-  categories: CategoryDto[] = [];
+  readonly products = signal<ProductDto[]>([]);
+  readonly categories = signal<CategoryDto[]>([]);
+  readonly filteredProducts = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+    return this.products().filter((product) => {
+      if (!term) {
+        return true;
+      }
+
+      return (
+        product.name.toLowerCase().includes(term) ||
+        (product.categoryName ?? '').toLowerCase().includes(term) ||
+        product.categoryId.toLowerCase().includes(term)
+      );
+    });
+  });
   readonly searchTerm = signal('');
   readonly showProductDialog = signal(false);
   readonly isEditing = signal(false);
@@ -69,7 +82,7 @@ export class ProductsComponent implements OnInit {
     this.isEditing.set(true);
     this.productDraft.set({
       ...product,
-      categoryId: product.categoryId ?? this.categories[0]?.id ?? '',
+      categoryId: product.categoryId ?? this.categories()[0]?.id ?? '',
       stockQuantity: product.stockQuantity ?? 0,
       price: product.price ?? 0,
     });
@@ -78,7 +91,6 @@ export class ProductsComponent implements OnInit {
 
   setSearchTerm(value: string): void {
     this.searchTerm.set(value);
-    this.applyFilter();
   }
 
   closeProductDialog(): void {
@@ -92,12 +104,10 @@ export class ProductsComponent implements OnInit {
   loadProducts(): void {
     this.inventoryApiConnector.getAllProducts().subscribe({
       next: (products) => {
-        this.products = this.normalizeProducts(products);
-        this.applyFilter();
+        this.products.set(this.normalizeProducts(products));
       },
       error: () => {
-        this.products = this.normalizeProducts(this.getFallbackProducts());
-        this.applyFilter();
+        this.products.set(this.normalizeProducts(this.getFallbackProducts()));
       },
     });
   }
@@ -105,26 +115,11 @@ export class ProductsComponent implements OnInit {
   loadCategories(): void {
     this.inventoryApiConnector.getAllCategories().subscribe({
       next: (categories) => {
-        this.categories = categories.length ? categories : this.getFallbackCategories();
+        this.categories.set(categories.length ? categories : this.getFallbackCategories());
       },
       error: () => {
-        this.categories = this.getFallbackCategories();
+        this.categories.set(this.getFallbackCategories());
       },
-    });
-  }
-
-  applyFilter(): void {
-    const term = this.searchTerm().trim().toLowerCase();
-    this.filteredProducts = this.products.filter((product) => {
-      if (!term) {
-        return true;
-      }
-
-      return (
-        product.name.toLowerCase().includes(term) ||
-        (product.categoryName ?? '').toLowerCase().includes(term) ||
-        product.categoryId.toLowerCase().includes(term)
-      );
     });
   }
 
@@ -139,7 +134,7 @@ export class ProductsComponent implements OnInit {
       id: draft.id ?? this.generateProductId(),
       name,
       expiryDate: draft.expiryDate ?? new Date().toISOString(),
-      categoryId: draft.categoryId ?? this.categories[0]?.id ?? 'uncategorized',
+      categoryId: draft.categoryId ?? this.categories()[0]?.id ?? 'uncategorized',
       stockQuantity: Number(draft.stockQuantity ?? 0),
       price: Number(draft.price ?? 0),
     };
@@ -151,23 +146,21 @@ export class ProductsComponent implements OnInit {
     request$.subscribe({
       next: () => {
         if (this.isEditing()) {
-          this.products = this.products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item));
+          this.products.update((products) => products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item)));
         } else {
-          this.products = [this.toProduct({} as ProductDto, payload), ...this.products];
+          this.products.update((products) => [this.toProduct({} as ProductDto, payload), ...products]);
         }
 
         this.showProductDialog.set(false);
-        this.applyFilter();
       },
       error: () => {
         if (this.isEditing()) {
-          this.products = this.products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item));
+          this.products.update((products) => products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item)));
         } else {
-          this.products = [this.toProduct({} as ProductDto, payload), ...this.products];
+          this.products.update((products) => [this.toProduct({} as ProductDto, payload), ...products]);
         }
 
         this.showProductDialog.set(false);
-        this.applyFilter();
       },
     });
   }
@@ -175,12 +168,10 @@ export class ProductsComponent implements OnInit {
   deleteProduct(productId: string): void {
     this.inventoryApiConnector.deleteProduct(productId).subscribe({
       next: () => {
-        this.products = this.products.filter((product) => product.id !== productId);
-        this.applyFilter();
+        this.products.update((products) => products.filter((product) => product.id !== productId));
       },
       error: () => {
-        this.products = this.products.filter((product) => product.id !== productId);
-        this.applyFilter();
+        this.products.update((products) => products.filter((product) => product.id !== productId));
       },
     });
   }
@@ -256,7 +247,7 @@ export class ProductsComponent implements OnInit {
   }
 
   private attachMetadata(product: ProductDto): ProductDto {
-    const categoryName = this.categories.find((category) => category.id === product.categoryId)?.name ?? 'Unassigned';
+    const categoryName = this.categories().find((category) => category.id === product.categoryId)?.name ?? 'Unassigned';
 
     return {
       ...product,
@@ -272,7 +263,7 @@ export class ProductsComponent implements OnInit {
       id: '',
       name: '',
       expiryDate: '',
-      categoryId: this.categories[0]?.id ?? '',
+      categoryId: this.categories()[0]?.id ?? '',
       stockQuantity: 0,
       price: 0,
     };

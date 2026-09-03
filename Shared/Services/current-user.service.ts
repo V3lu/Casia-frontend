@@ -1,15 +1,16 @@
-import { Service } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { User } from '../Models';
 
-@Service()
+@Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-  currentUser: User | null = null;
+  private readonly currentUser = signal<User | null>(null);
+  readonly user = this.currentUser.asReadonly();
   
-  setCurrentUser(user: User) {
-    this.currentUser = user;
+  setCurrentUser(user: User): void {
+    this.currentUser.set(user);
   }
 
   getCurrentUser(): User | null {
-    return this.currentUser;
+    return this.currentUser();
   }
 }

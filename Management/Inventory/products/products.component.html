@@ -68,7 +68,7 @@
         <ng-template #subtitle>Tracks name, category, stock, price, and expiry status.</ng-template>
 
         <div class="inventory-table-wrapper">
-            <p-table [value]="filteredProducts" [paginator]="true" [rows]="8" [tableStyle]="{ 'min-width': '100%' }">
+            <p-table [value]="filteredProducts()" [paginator]="true" [rows]="8" [tableStyle]="{ 'min-width': '100%' }">
                 <ng-template #header>
                     <tr>
                         <th>Name</th>
@@ -114,7 +114,7 @@
                 <label>Category</label>
                 <select class="category-select" [value]="productDraft().categoryId ?? ''" (change)="setProductDraftValue('categoryId', $any($event.target).value)" name="categoryId">
                     <option value="">Select a category</option>
-                    @for (category of categories; track category.id) {
+                    @for (category of categories(); track category.id) {
                         <option [value]="category.id">{{ category.name }}</option>
                     }
                 </select>

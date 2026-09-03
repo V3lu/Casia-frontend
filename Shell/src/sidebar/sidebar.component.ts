@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -20,10 +20,11 @@ export class SidebarComponent {
   private readonly router = inject(Router);
   private readonly currentUserService = inject(CurrentUserService);
 
-  readonly userFirstName = signal<string>('');
-  readonly userLastName = signal<string>('');
-  readonly userRole = signal<string>('');
-  visible = signal<boolean>(false);
+  readonly user = this.currentUserService.user;
+  readonly userFirstName = computed(() => this.user()?.firstName ?? '');
+  readonly userLastName = computed(() => this.user()?.lastName ?? '');
+  readonly userRole = computed(() => this.user()?.role ?? '');
+  readonly visible = signal(false);
 
   navItems = [
     { label: 'Dashboard', icon: 'pi pi-th-large', route: '/Dashboard' },
@@ -52,8 +53,5 @@ export class SidebarComponent {
       lastName: 'Doe',
     });
 
-    this.userFirstName.set(this.currentUserService.getCurrentUser()?.firstName || '');
-    this.userLastName.set(this.currentUserService.getCurrentUser()?.lastName || '');
-    this.userRole.set(this.currentUserService.getCurrentUser()?.role || '');
   }
 }
