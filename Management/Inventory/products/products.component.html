@@ -13,7 +13,7 @@
         <ng-template #center>
             <div class="toolbar-search">
                 <i class="pi pi-search"></i>
-                <input pInputText placeholder="Search products" [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" />
+                <input pInputText placeholder="Search products" [value]="searchTerm()" (input)="setSearchTerm($any($event.target).value)" />
             </div>
         </ng-template>
 
@@ -107,12 +107,12 @@
         <div class="product-form">
             <div class="field">
                 <label>Name</label>
-                <input pInputText [(ngModel)]="productDraft.name" name="name" placeholder="Product name" />
+                <input pInputText [value]="productDraft().name ?? ''" (input)="setProductDraftValue('name', $any($event.target).value)" name="name" placeholder="Product name" />
             </div>
 
             <div class="field">
                 <label>Category</label>
-                <select class="category-select" [(ngModel)]="productDraft.categoryId" name="categoryId">
+                <select class="category-select" [value]="productDraft().categoryId ?? ''" (change)="setProductDraftValue('categoryId', $any($event.target).value)" name="categoryId">
                     <option value="">Select a category</option>
                     @for (category of categories; track category.id) {
                         <option [value]="category.id">{{ category.name }}</option>
@@ -123,23 +123,23 @@
             <div class="field field-grid">
                 <div>
                     <label>Stock</label>
-                    <input pInputText type="number" [(ngModel)]="productDraft.stockQuantity" name="stockQuantity" min="0" />
+                    <input pInputText type="number" [value]="productDraft().stockQuantity ?? 0" (input)="setProductDraftValue('stockQuantity', +$any($event.target).value)" name="stockQuantity" min="0" />
                 </div>
                 <div>
                     <label>Price</label>
-                    <input pInputText type="number" [(ngModel)]="productDraft.price" name="price" min="0" step="0.01" />
+                    <input pInputText type="number" [value]="productDraft().price ?? 0" (input)="setProductDraftValue('price', +$any($event.target).value)" name="price" min="0" step="0.01" />
                 </div>
             </div>
 
             <div class="field">
                 <label>Expiry date</label>
-                <input pInputText type="date" [(ngModel)]="productDraft.expiryDate" name="expiryDate" />
+                <input pInputText type="date" [value]="productDraft().expiryDate ?? ''" (input)="setProductDraftValue('expiryDate', $any($event.target).value)" name="expiryDate" />
             </div>
         </div>
 
         <ng-template #footer>
             <div class="dialog-actions">
-                <p-button label="Cancel" severity="secondary" [text]="true" (onClick)="showProductDialog = false"></p-button>
+                <p-button label="Cancel" severity="secondary" [text]="true" (onClick)="closeProductDialog()"></p-button>
                 <p-button label="Save" (onClick)="saveProduct()"></p-button>
             </div>
         </ng-template>

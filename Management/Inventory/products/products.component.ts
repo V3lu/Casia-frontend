@@ -1,6 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +24,6 @@ type ProductDraft = Partial<ProductDto> & Partial<AddProductRequest>;
     AvatarModule,
     TableModule,
     DialogModule,
-    FormsModule,
     TagModule,
     CurrencyPipe,
     DatePipe,
@@ -51,10 +49,10 @@ export class ProductsComponent implements OnInit {
   products: ProductDto[] = [];
   filteredProducts: ProductDto[] = [];
   categories: CategoryDto[] = [];
-  searchTerm = '';
-  showProductDialog = false;
-  isEditing = false;
-  productDraft: ProductDraft = this.createEmptyProduct();
+  readonly searchTerm = signal('');
+  readonly showProductDialog = signal(false);
+  readonly isEditing = signal(false);
+  readonly productDraft = signal<ProductDraft>(this.createEmptyProduct());
 
   ngOnInit(): void {
     this.loadCategories();
@@ -62,20 +60,33 @@ export class ProductsComponent implements OnInit {
   }
 
   openNewProduct(): void {
-    this.isEditing = false;
-    this.productDraft = this.createEmptyProduct();
-    this.showProductDialog = true;
+    this.isEditing.set(false);
+    this.productDraft.set(this.createEmptyProduct());
+    this.showProductDialog.set(true);
   }
 
   openEditProduct(product: ProductDto): void {
-    this.isEditing = true;
-    this.productDraft = {
+    this.isEditing.set(true);
+    this.productDraft.set({
       ...product,
       categoryId: product.categoryId ?? this.categories[0]?.id ?? '',
       stockQuantity: product.stockQuantity ?? 0,
       price: product.price ?? 0,
-    };
-    this.showProductDialog = true;
+    });
+    this.showProductDialog.set(true);
+  }
+
+  setSearchTerm(value: string): void {
+    this.searchTerm.set(value);
+    this.applyFilter();
+  }
+
+  closeProductDialog(): void {
+    this.showProductDialog.set(false);
+  }
+
+  setProductDraftValue(field: keyof ProductDraft, value: string | number): void {
+    this.productDraft.update((draft) => ({ ...draft, [field]: value }));
   }
 
   loadProducts(): void {
@@ -103,7 +114,7 @@ export class ProductsComponent implements OnInit {
   }
 
   applyFilter(): void {
-    const term = this.searchTerm.trim().toLowerCase();
+    const term = this.searchTerm().trim().toLowerCase();
     this.filteredProducts = this.products.filter((product) => {
       if (!term) {
         return true;
@@ -118,43 +129,44 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct(): void {
-    const name = this.productDraft.name?.trim();
+    const draft = this.productDraft();
+    const name = draft.name?.trim();
     if (!name) {
       return;
     }
 
     const payload: AddProductRequest = {
-      id: this.productDraft.id ?? this.generateProductId(),
+      id: draft.id ?? this.generateProductId(),
       name,
-      expiryDate: this.productDraft.expiryDate ?? new Date().toISOString(),
-      categoryId: this.productDraft.categoryId ?? this.categories[0]?.id ?? 'uncategorized',
-      stockQuantity: Number(this.productDraft.stockQuantity ?? 0),
-      price: Number(this.productDraft.price ?? 0),
+      expiryDate: draft.expiryDate ?? new Date().toISOString(),
+      categoryId: draft.categoryId ?? this.categories[0]?.id ?? 'uncategorized',
+      stockQuantity: Number(draft.stockQuantity ?? 0),
+      price: Number(draft.price ?? 0),
     };
 
-    const request$ = (this.isEditing
+    const request$ = (this.isEditing()
       ? this.inventoryApiConnector.updateProduct(payload)
       : this.inventoryApiConnector.addProduct(payload)) as Observable<unknown>;
 
     request$.subscribe({
       next: () => {
-        if (this.isEditing) {
+        if (this.isEditing()) {
           this.products = this.products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item));
         } else {
           this.products = [this.toProduct({} as ProductDto, payload), ...this.products];
         }
 
-        this.showProductDialog = false;
+        this.showProductDialog.set(false);
         this.applyFilter();
       },
       error: () => {
-        if (this.isEditing) {
+        if (this.isEditing()) {
           this.products = this.products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item));
         } else {
           this.products = [this.toProduct({} as ProductDto, payload), ...this.products];
         }
 
-        this.showProductDialog = false;
+        this.showProductDialog.set(false);
         this.applyFilter();
       },
     });
