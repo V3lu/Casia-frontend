@@ -189,12 +189,12 @@ export class ProductsComponent implements OnInit {
       return 'Low stock';
     }
 
-    return 'Healthy';
+    return 'Well stocked';
   }
 
   getSeverity(product: ProductDto): 'success' | 'warn' | 'danger' | 'info' {
     const status = this.getInventoryStatus(product);
-    if (status === 'Healthy') {
+    if (status === 'Well stocked') {
       return 'success';
     }
 

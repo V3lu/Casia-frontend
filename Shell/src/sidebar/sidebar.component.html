@@ -34,4 +34,12 @@
     </div>
 </p-drawer>
 
-<div class="sidebar-enterer" (mouseenter)="visible.set(!visible())"></div>
+<button
+    type="button"
+    class="sidebar-enterer"
+    [attr.aria-label]="visible() ? 'Close navigation menu' : 'Open navigation menu'"
+    [attr.aria-expanded]="visible()"
+    (click)="visible.set(!visible())"
+>
+    <i [class]="visible() ? 'pi pi-angle-left' : 'pi pi-angle-right'"></i>
+</button>

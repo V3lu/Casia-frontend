@@ -23,12 +23,29 @@
 .sidebar-enterer {
     position: fixed;
     left: 0;
-    top: 0;
-    height: 100vh;
-    width: 1.5rem;
-    z-index: 999;
-    opacity: 0;
-    cursor: default;
+	top: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 4.5rem;
+	transform: translateY(-50%);
+	z-index: 1101;
+	border: 1px solid rgba(122, 255, 79, 0.4);
+	border-left: 0;
+	border-radius: 0 0.7rem 0.7rem 0;
+	color: #d9ffd1;
+	background: #12331f;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+	cursor: pointer;
+	transition: width 150ms ease, background-color 150ms ease;
+}
+
+.sidebar-enterer:hover,
+.sidebar-enterer:focus-visible {
+	width: 2.3rem;
+	background: #1c512d;
+	outline: none;
 }
 
 .sidebar-shell {

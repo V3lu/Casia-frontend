@@ -27,7 +27,9 @@
         </ng-template>
     </p-toolbar>
 
-    <div class="hero-grid">
+    <section class="dashboard-section dashboard-section--overview" aria-labelledby="overview-section-title">
+        <h3 id="overview-section-title" class="dashboard-section__label">Operations overview</h3>
+        <div class="hero-grid">
         <p-card class="hero-card">
             <ng-template #title>Operations overview</ng-template>
             <ng-template #subtitle>Everything important in one place for your team.</ng-template>
@@ -68,9 +70,12 @@
             <p-divider></p-divider>
             <p-button label="View full report" severity="secondary"></p-button>
         </p-card>
-    </div>
+        </div>
+    </section>
 
-    <div class="stats-grid">
+    <section class="dashboard-section dashboard-section--metrics" aria-labelledby="metrics-section-title">
+        <h3 id="metrics-section-title" class="dashboard-section__label">Key metrics</h3>
+        <div class="stats-grid">
         @for (card of summaryCards; track card.title) {
             <p-card class="summary-card">
                 <div class="summary-card__body">
@@ -88,9 +93,12 @@
                 </div>
             </p-card>
         }
-    </div>
+        </div>
+    </section>
 
-    <div class="content-grid">
+    <section class="dashboard-section dashboard-section--details" aria-labelledby="details-section-title">
+        <h3 id="details-section-title" class="dashboard-section__label">Performance details</h3>
+        <div class="content-grid">
         <p-card class="overview-card">
             <ng-template #title>Revenue overview</ng-template>
             <div class="overview-card__body">
@@ -122,6 +130,7 @@
                 </ng-template>
             </p-table>
         </p-card>
-    </div>
+        </div>
+    </section>
 </div>
 
