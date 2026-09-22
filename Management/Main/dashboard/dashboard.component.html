@@ -19,7 +19,8 @@
 
         <ng-template #end>
             <div class="toolbar-actions">
-                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
+                <p-button icon="pi pi-refresh" [rounded]="true" [text]="true" size="large" ariaLabel="Refresh dashboard" (onClick)="refreshDashboard()"></p-button>
+                <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large" ariaLabel="View notifications" (onClick)="openNotifications()"></p-button>
                 <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="dashboardRange" selectionMode="range" appendTo="body" [placeholder]="'Filter by date range'"></p-datepicker>
                 <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
@@ -68,8 +69,19 @@
                 </div>
             </div>
             <p-divider></p-divider>
-            <p-button label="View full report" severity="secondary"></p-button>
+            <p-button label="View full report" icon="pi pi-chart-line" severity="secondary" (onClick)="openReport()"></p-button>
         </p-card>
+        </div>
+    </section>
+
+    <section class="dashboard-section dashboard-section--actions" aria-labelledby="actions-section-title">
+        <div class="dashboard-section__header">
+            <h3 id="actions-section-title" class="dashboard-section__label">Quick actions</h3>
+            <div class="quick-actions">
+                @for (action of quickActions; track action.label) {
+                    <p-button [label]="action.label" [icon]="action.icon" [outlined]="true" severity="success" (onClick)="action.action()"></p-button>
+                }
+            </div>
         </div>
     </section>
 

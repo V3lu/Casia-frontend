@@ -18,6 +18,14 @@ export class InventoryAPIConnectorService extends ApiConnectorBaseService {
     return this.get<ProductDto[]>('api/InventoryGet/products');
   }
 
+  getLowStockProducts(): Observable<ProductDto[]> {
+    return this.get<ProductDto[]>('api/InventoryGet/products/low-stock');
+  }
+
+  getExpiringSoonProducts(): Observable<ProductDto[]> {
+    return this.get<ProductDto[]>('api/InventoryGet/products/expiring-soon');
+  }
+
   getProductById(id: string): Observable<ProductDto> {
     return this.get<ProductDto>(`api/InventoryGet/products/${id}`);
   }

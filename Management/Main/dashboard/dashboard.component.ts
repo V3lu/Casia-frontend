@@ -1,4 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import type { ChartData, ChartOptions } from 'chart.js';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -11,6 +13,10 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CurrentUserService } from 'Shared/Services/current-user.service';
+import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
+import { MainAPIConnectorService } from 'Shared/Services/main-apiconnector.service';
+import { OperationsAPIConnectorService } from 'Shared/Services/operations-apiconnector.service';
+import { SystemAPIConnectorService } from 'Shared/Services/system-apiconnector.service';
 
 type SummaryCard = {
   title: string;
@@ -30,6 +36,53 @@ type SummaryCard = {
 })
 export class DashboardComponent {
   readonly currentUserService = inject(CurrentUserService);
+  private readonly router = inject(Router);
+  private readonly inventoryApiConnector = inject(InventoryAPIConnectorService);
+  private readonly mainApiConnector = inject(MainAPIConnectorService);
+  private readonly operationsApiConnector = inject(OperationsAPIConnectorService);
+  private readonly systemApiConnector = inject(SystemAPIConnectorService);
+
+  readonly quickActions = [
+    { label: 'View analytics', icon: 'pi pi-chart-line', action: () => this.openAnalytics() },
+    { label: 'Manage products', icon: 'pi pi-box', action: () => this.openProducts() },
+    { label: 'Review low stock', icon: 'pi pi-exclamation-triangle', action: () => this.openLowStock() },
+    { label: 'Check orders', icon: 'pi pi-shopping-cart', action: () => this.openOrders() },
+  ];
+
+  refreshDashboard(): void {
+    this.mainApiConnector.getDashboardSummary().subscribe();
+  }
+
+  openNotifications(): void {
+    this.systemApiConnector.getNotifications().subscribe();
+  }
+
+  openAnalytics(): void {
+    this.runAndNavigate(this.mainApiConnector.getAnalyticsReport(), '/Analytics');
+  }
+
+  openProducts(): void {
+    this.runAndNavigate(this.inventoryApiConnector.getAllProducts(), '/Products');
+  }
+
+  openLowStock(): void {
+    this.runAndNavigate(this.inventoryApiConnector.getLowStockProducts(), '/Low-stock');
+  }
+
+  openOrders(): void {
+    this.runAndNavigate(this.operationsApiConnector.getOrdersSummary(), '/Orders');
+  }
+
+  openReport(): void {
+    this.openAnalytics();
+  }
+
+  private runAndNavigate(request$: Observable<unknown>, route: string): void {
+    request$.subscribe({
+      next: () => this.router.navigateByUrl(route),
+      error: () => this.router.navigateByUrl(route),
+    });
+  }
 
   readonly sparklineUpData: ChartData<'line'> = {
     labels: ['', '', '', '', '', '', '', ''],

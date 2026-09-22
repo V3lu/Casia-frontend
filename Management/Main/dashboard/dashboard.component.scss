@@ -38,6 +38,18 @@
 	background: rgba(28, 113, 75, 0.08);
 }
 
+.dashboard-section--actions {
+	border-color: rgba(95, 224, 164, 0.42);
+	background: rgba(28, 113, 75, 0.06);
+}
+
+.dashboard-section__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
 .dashboard-section__label {
 	margin: 0 0 0.7rem 0.2rem;
 	color: #f5f7fa;
@@ -420,5 +432,36 @@
 		height: 4.2rem;
 		margin-top: 0.25rem;
 		grid-column: 1 / -1;
+	}
+}
+
+.quick-actions {
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+}
+
+:host ::ng-deep .quick-actions .p-button {
+	border-color: rgba(95, 224, 164, 0.52);
+	color: #a6f4c9;
+	background: rgba(95, 224, 164, 0.08);
+}
+
+:host ::ng-deep .quick-actions .p-button:hover {
+	border-color: #5fe0a4;
+	color: #07110c;
+	background: #5fe0a4;
+}
+
+@media (max-width: 780px) {
+	.dashboard-section__header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.quick-actions {
+		justify-content: flex-start;
+		width: 100%;
 	}
 }
