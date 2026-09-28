@@ -13,13 +13,13 @@
         <ng-template #center>
             <div class="toolbar-search">
                 <i class="pi pi-search"></i>
-                <input pInputText placeholder="Search orders" />
+                <input pInputText placeholder="Search orders" [value]="searchTerm()" (input)="setSearchTerm($any($event.target).value)" />
             </div>
         </ng-template>
 
         <ng-template #end>
             <div class="toolbar-actions">
-                <p-button icon="pi pi-plus" label="New order" severity="secondary"></p-button>
+                <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" [loading]="isLoading()" (onClick)="loadOrders()"></p-button>
                 <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
@@ -35,18 +35,53 @@
                 <div class="summary-stack">
                     <div class="summary-tile">
                         <span>Pending</span>
-                        <strong>42</strong>
+                        <strong>{{ summary().pending }}</strong>
                     </div>
                     <div class="summary-tile">
                         <span>Shipped</span>
-                        <strong>186</strong>
+                        <strong>{{ summary().shipped }}</strong>
                     </div>
                     <div class="summary-tile">
                         <span>Returns</span>
-                        <strong>11</strong>
+                        <strong>{{ summary().returns }}</strong>
                     </div>
                 </div>
             </div>
+        </p-card>
+
+        <p-card class="module-card module-card--wide">
+            <ng-template #title>Recent orders</ng-template>
+            <ng-template #subtitle>Search and review the latest fulfillment activity.</ng-template>
+            @if (hasError()) {
+                <p class="module-status module-status--warning">The operations API is unavailable. Showing the latest local snapshot.</p>
+            }
+            @if (isLoading()) {
+                <p class="module-status">Loading orders...</p>
+            } @else {
+                <p-table [value]="filteredOrders()" [tableStyle]="{ 'min-width': '52rem' }" responsiveLayout="scroll">
+                    <ng-template #header>
+                        <tr>
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Updated</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-order>
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.customer }}</td>
+                            <td><p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag></td>
+                            <td>{{ order.total | currency }}</td>
+                            <td>{{ order.updatedAt | date: 'medium' }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #emptymessage>
+                        <tr><td colspan="5">No orders match your search.</td></tr>
+                    </ng-template>
+                </p-table>
+            }
         </p-card>
     </div>
 </div>
