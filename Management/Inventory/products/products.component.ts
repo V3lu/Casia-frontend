@@ -9,7 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
-import { AddProductRequest, CategoryDto, ProductDto } from 'Shared/Models/inventory.models';
+import { AddProductRequest, CategoryDto, CommandResponse, ProductDto } from 'Shared/Models/inventory.models';
 import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
 
 type ProductDraft = Partial<ProductDto> & Partial<AddProductRequest>;
@@ -141,7 +141,7 @@ export class ProductsComponent implements OnInit {
 
     const request$ = (this.isEditing()
       ? this.inventoryApiConnector.updateProduct(payload)
-      : this.inventoryApiConnector.addProduct(payload)) as Observable<unknown>;
+      : this.inventoryApiConnector.addProduct(payload)) as Observable<CommandResponse<string> | CommandResponse<ProductDto>>;
 
     request$.subscribe({
       next: () => {

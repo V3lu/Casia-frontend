@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
+import { OrderDto, OrdersSummaryDto, OrdersSummaryResponse } from 'Shared/Models';
 import { OperationsAPIConnectorService } from 'Shared/Services/operations-apiconnector.service';
 
 type OrderStatus = 'Pending' | 'Shipped' | 'Delivered' | 'Returned';
@@ -17,14 +18,6 @@ type OrderRecord = {
   status: OrderStatus;
   total: number;
   updatedAt: string;
-};
-
-type OrdersResponse = {
-  pending?: number;
-  shipped?: number;
-  returns?: number;
-  orders?: unknown[];
-  data?: { orders?: unknown[] };
 };
 
 @Component({
@@ -91,7 +84,7 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  private applyResponse(response: unknown): void {
+  private applyResponse(response: OrdersSummaryResponse): void {
     const payload = this.asOrdersResponse(response);
     const rawOrders = payload.orders ?? payload.data?.orders ?? [];
     const orders = rawOrders.map((order, index) => this.normalizeOrder(order, index)).filter((order): order is OrderRecord => order !== null);
@@ -104,27 +97,22 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  private asOrdersResponse(response: unknown): OrdersResponse {
+  private asOrdersResponse(response: OrdersSummaryResponse): OrdersSummaryDto {
     if (Array.isArray(response)) {
       return { orders: response };
     }
 
-    return response && typeof response === 'object' ? response as OrdersResponse : {};
+    return response;
   }
 
-  private normalizeOrder(value: unknown, index: number): OrderRecord | null {
-    if (!value || typeof value !== 'object') {
-      return null;
-    }
-
-    const order = value as Record<string, unknown>;
+  private normalizeOrder(order: OrderDto, index: number): OrderRecord | null {
     const status = this.normalizeStatus(order['status'] ?? order['orderStatus']);
     return {
-      id: String(order['id'] ?? order['orderId'] ?? `#${4800 + index}`),
-      customer: String(order['customer'] ?? order['customerName'] ?? 'Customer'),
+      id: String(order.id ?? order.orderId ?? `#${4800 + index}`),
+      customer: String(order.customer ?? order.customerName ?? 'Customer'),
       status,
-      total: this.toNumber(order['total'] ?? order['totalAmount'] ?? order['amount'], 0),
-      updatedAt: String(order['updatedAt'] ?? order['createdAt'] ?? new Date().toISOString()),
+      total: this.toNumber(order.total ?? order.totalAmount ?? order.amount, 0),
+      updatedAt: String(order.updatedAt ?? order.createdAt ?? new Date().toISOString()),
     };
   }
 

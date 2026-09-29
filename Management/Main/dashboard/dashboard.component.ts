@@ -17,6 +17,7 @@ import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconne
 import { MainAPIConnectorService } from 'Shared/Services/main-apiconnector.service';
 import { OperationsAPIConnectorService } from 'Shared/Services/operations-apiconnector.service';
 import { SystemAPIConnectorService } from 'Shared/Services/system-apiconnector.service';
+import { AnalyticsReportDto, DashboardSummaryDto, NotificationsResponse, OrdersSummaryResponse, ProductDto } from 'Shared/Models';
 
 type SummaryCard = {
   title: string;
@@ -77,7 +78,10 @@ export class DashboardComponent {
     this.openAnalytics();
   }
 
-  private runAndNavigate(request$: Observable<unknown>, route: string): void {
+  private runAndNavigate(
+    request$: Observable<DashboardSummaryDto | AnalyticsReportDto | ProductDto[] | OrdersSummaryResponse | NotificationsResponse>,
+    route: string,
+  ): void {
     request$.subscribe({
       next: () => this.router.navigateByUrl(route),
       error: () => this.router.navigateByUrl(route),
