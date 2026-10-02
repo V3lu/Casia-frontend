@@ -56,3 +56,60 @@ export interface NotificationDto {
 }
 
 export type NotificationsResponse = NotificationDto[] | { notifications?: NotificationDto[] };
+
+export interface MetricTileDto {
+  label: string;
+  value: string;
+  note: string;
+}
+
+export interface DetailRowDto {
+  name: string;
+  value: string;
+  note: string;
+}
+
+export interface SalesSummaryDto {
+  summaryTiles?: MetricTileDto[];
+  detailRows?: DetailRowDto[];
+  data?: {
+    summaryTiles?: MetricTileDto[];
+    detailRows?: DetailRowDto[];
+  };
+}
+
+export interface SuppliersSummaryDto {
+  summaryTiles?: MetricTileDto[];
+  detailRows?: DetailRowDto[];
+  data?: {
+    summaryTiles?: MetricTileDto[];
+    detailRows?: DetailRowDto[];
+  };
+}
+
+export interface PromotionsSummaryDto {
+  summaryTiles?: MetricTileDto[];
+  detailRows?: DetailRowDto[];
+  data?: {
+    summaryTiles?: MetricTileDto[];
+    detailRows?: DetailRowDto[];
+  };
+}
+
+export interface StaffSummaryDto {
+  summaryTiles?: MetricTileDto[];
+  detailRows?: DetailRowDto[];
+  data?: {
+    summaryTiles?: MetricTileDto[];
+    detailRows?: DetailRowDto[];
+  };
+}
+
+export interface SettingsSummaryDto {
+  summaryTiles?: MetricTileDto[];
+  detailRows?: DetailRowDto[];
+  data?: {
+    summaryTiles?: MetricTileDto[];
+    detailRows?: DetailRowDto[];
+  };
+}

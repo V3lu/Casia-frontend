@@ -19,7 +19,7 @@
 
         <ng-template #end>
             <div class="toolbar-actions">
-                <p-button icon="pi pi-download" label="Report" severity="secondary"></p-button>
+                <p-button icon="pi pi-refresh" label="Refresh" severity="secondary" [loading]="isLoading()" (onClick)="loadSales()"></p-button>
                 <p-button icon="pi pi-bell" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" size="large"></p-button>
                 <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" size="large"></p-avatar>
@@ -33,7 +33,7 @@
             <ng-template #subtitle>Performance snapshot across all sales channels.</ng-template>
             <div class="module-card__body">
                 <div class="summary-stack">
-                    @for (tile of summaryTiles; track tile.label) {
+                    @for (tile of summaryTiles(); track tile.label) {
                         <div class="summary-tile">
                             <span>{{ tile.label }}</span>
                             <strong>{{ tile.value }}</strong>
@@ -48,8 +48,14 @@
             <ng-template #title>Channel mix</ng-template>
             <ng-template #subtitle>Mocked rows showing where the sales are coming from.</ng-template>
             <div class="module-card__body module-card__body--top">
+                @if (hasError()) {
+                    <p class="module-status module-status--warning">The sales API is unavailable. Showing the latest local snapshot.</p>
+                }
+                @if (isLoading()) {
+                    <p class="module-status">Loading sales data...</p>
+                } @else {
                 <div class="detail-stack">
-                    @for (row of detailRows; track row.name) {
+                    @for (row of detailRows(); track row.name) {
                         <div class="detail-row">
                             <div class="detail-row__meta">
                                 <span>{{ row.name }}</span>
@@ -59,6 +65,7 @@
                         </div>
                     }
                 </div>
+                }
             </div>
         </p-card>
     </div>
