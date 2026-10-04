@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, inject, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 export interface AppNotification {
@@ -7,12 +7,11 @@ export interface AppNotification {
   detail: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ApiNotificationService {
   private readonly notifications = signal<AppNotification[]>([]);
   readonly messages = this.notifications.asReadonly();
-
-  constructor(private readonly messageService: MessageService) {}
+  private readonly messageService = inject(MessageService);
 
   success(summary: string, detail: string): void {
     this.show({ severity: 'success', summary, detail });

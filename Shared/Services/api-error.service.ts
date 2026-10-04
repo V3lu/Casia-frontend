@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ApiErrorService {
   getMessage(error: HttpErrorResponse): string {
     if (error.status === 0) return 'The service is unavailable. Check your connection and try again.';

@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.login-shell {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #111827 35%, #1f2937 100%);
+  padding: 2rem;
+}
+
+.login-card {
+  width: min(100%, 440px);
+}
+
+.login-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.login-brand-mark {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.9rem;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  color: #03130e;
+}
+
+.login-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.login-header p {
+  margin: 0.15rem 0 0;
+  color: #64748b;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+}
+
+.login-form label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.login-form input {
+  width: 100%;
+}
+
+.login-error {
+  margin: 0;
+  color: #fda4af;
+  font-size: 0.85rem;
+}
+
+.login-submit {
+  margin-top: 0.25rem;
+}
+
+.login-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.78rem;
+}

@@ -7,7 +7,7 @@
 
     <div class="sidebar-shell">
         <nav class="sidebar-nav" aria-label="Sidebar navigation">
-            @for (item of navItems; track $index) {
+            @for (item of visibleNavItems(); track item.route) {
                 <a
                     pRipple
                     [routerLink]="item.route"
@@ -30,6 +30,7 @@
                     <span class="sidebar-user-role">{{ userRole() }}</span>
                 </div>
             </div>
+            <p-button label="Log out" icon="pi pi-sign-out" severity="secondary" [text]="true" (onClick)="logout()"></p-button>
         </div>
     </div>
 </p-drawer>

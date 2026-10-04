@@ -3,4 +3,30 @@ export interface User {
     role: string;
     firstName: string;
     lastName: string;
+    email?: string;
+    username?: string;
 }
+
+export interface AuthSession {
+    token: string;
+    expiresAt?: string;
+    user?: User;
+}
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    token?: string;
+    accessToken?: string;
+    user?: User;
+    expiresAt?: string;
+    data?: {
+        token?: string;
+        accessToken?: string;
+        user?: User;
+        expiresAt?: string;
+    };
+} 

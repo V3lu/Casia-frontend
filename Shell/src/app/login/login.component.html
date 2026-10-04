@@ -1,0 +1,27 @@
+<div class="login-shell">
+  <p-card class="login-card">
+    <ng-template #header>
+      <div class="login-header">
+        <div class="login-brand-mark">C</div>
+        <div>
+          <h1>Casia</h1>
+          <p>Sign in to continue</p>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="login-form">
+      <label for="email">Email</label>
+      <input id="email" pInputText type="email" [value]="email()" (input)="email.set($any($event.target).value)" placeholder="admin@casia.local" />
+
+      <label for="password">Password</label>
+      <input id="password" pInputText type="password" [value]="password()" (input)="password.set($any($event.target).value)" placeholder="admin123" />
+
+      @if (authError()) {
+        <p class="login-error">{{ authError() }}</p>
+      }
+
+      <p-button label="Sign in" icon="pi pi-sign-in" (onClick)="login()" styleClass="login-submit"></p-button>
+    </div>
+  </p-card>
+</div>

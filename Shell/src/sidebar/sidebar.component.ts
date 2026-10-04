@@ -10,6 +10,13 @@ import { CurrentUserService } from 'Shared/Services';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 
+type NavigationItem = {
+  label: string;
+  icon: string;
+  route: string;
+  roles?: string[];
+};
+
 @Component({
   selector: 'app-sidebar',
   imports: [AvatarModule, ButtonModule, CardModule, DividerModule, DrawerModule, RippleModule, RouterLink, FloatLabelModule, InputTextModule],
@@ -26,32 +33,34 @@ export class SidebarComponent {
   readonly userRole = computed(() => this.user()?.role ?? '');
   readonly visible = signal(false);
 
-  navItems = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', route: '/Dashboard' },
-    { label: 'Analytics', icon: 'pi pi-chart-line', route: '/Analytics' },
-    { label: 'Products', icon: 'pi pi-box', route: '/Products' },
-    { label: 'Categories', icon: 'pi pi-tags', route: '/Categories' },
-    { label: 'Low Stock', icon: 'pi pi-exclamation-triangle', route: '/Low-stock' },
-    { label: 'Expiring Soon', icon: 'pi pi-clock', route: '/Expiring-soon' },
-    { label: 'Orders', icon: 'pi pi-shopping-cart', route: '/Orders' },
-    { label: 'Sales', icon: 'pi pi-dollar', route: '/Sales' },
-    { label: 'Promotions', icon: 'pi pi-megaphone', route: '/Promotions' },
-    { label: 'Suppliers', icon: 'pi pi-truck', route: '/Suppliers' },
-    { label: 'Staff', icon: 'pi pi-users', route: '/Staff' },
-    { label: 'Settings', icon: 'pi pi-cog', route: '/Settings' },
+  readonly navItems: NavigationItem[] = [
+    { label: 'Dashboard', icon: 'pi pi-th-large', route: '/Dashboard', roles: ['Admin', 'Manager', 'Warehouse', 'Sales'] },
+    { label: 'Analytics', icon: 'pi pi-chart-line', route: '/Analytics', roles: ['Admin', 'Manager', 'Sales'] },
+    { label: 'Products', icon: 'pi pi-box', route: '/Products', roles: ['Admin', 'Manager', 'Warehouse'] },
+    { label: 'Categories', icon: 'pi pi-tags', route: '/Categories', roles: ['Admin', 'Manager'] },
+    { label: 'Low Stock', icon: 'pi pi-exclamation-triangle', route: '/Low-stock', roles: ['Admin', 'Manager', 'Warehouse'] },
+    { label: 'Expiring Soon', icon: 'pi pi-clock', route: '/Expiring-soon', roles: ['Admin', 'Manager', 'Warehouse'] },
+    { label: 'Orders', icon: 'pi pi-shopping-cart', route: '/Orders', roles: ['Admin', 'Manager', 'Sales'] },
+    { label: 'Sales', icon: 'pi pi-dollar', route: '/Sales', roles: ['Admin', 'Sales', 'Manager'] },
+    { label: 'Promotions', icon: 'pi pi-megaphone', route: '/Promotions', roles: ['Admin', 'Sales', 'Manager'] },
+    { label: 'Suppliers', icon: 'pi pi-truck', route: '/Suppliers', roles: ['Admin', 'Manager'] },
+    { label: 'Staff', icon: 'pi pi-users', route: '/Staff', roles: ['Admin', 'Manager'] },
+    { label: 'Settings', icon: 'pi pi-cog', route: '/Settings', roles: ['Admin'] },
   ];
+
+  readonly visibleNavItems = computed(() => {
+    const userRole = this.user()?.role ?? '';
+    return this.navItems.filter((item) =>
+      !item.roles || item.roles.some((role) => role.toLowerCase() === userRole.toLowerCase()),
+    );
+  });
 
   isActive(route: string): boolean {
     return this.router.url === route;
   }
 
-  constructor() {
-    this.currentUserService.setCurrentUser({
-      id: '1',
-      role: 'Admin',
-      firstName: 'Adam',
-      lastName: 'Doe',
-    });
-
+  logout(): void {
+    this.currentUserService.logout();
+    this.router.navigateByUrl('/login');
   }
 }

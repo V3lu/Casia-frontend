@@ -1,4 +1,6 @@
 export * from './current-user.service';
+export * from './auth.service';
+export * from './auth.interceptor';
 export * from './api-error.service';
 export * from './api-error.interceptor';
 export * from './api-notification.service';

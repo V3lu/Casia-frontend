@@ -3,4 +3,5 @@ export const environment = {
   systemApiUrl: 'http://localhost:5002',
   mainApiUrl: 'http://localhost:5003',
   operationsApiUrl: 'http://localhost:5004',
+  authApiUrl: 'http://localhost:5005',
 };

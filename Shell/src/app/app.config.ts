@@ -8,13 +8,13 @@ import { provideClientHydration, withNoIncrementalHydration } from '@angular/pla
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { MessageService } from 'primeng/api';
 import { apiErrorInterceptor } from 'Shared/Services/api-error.interceptor';
-  
+import { authInterceptor } from 'Shared/Services/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([apiErrorInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, apiErrorInterceptor])),
     providePrimeNG({ theme: { preset: Aura } }),
     provideClientHydration(withNoIncrementalHydration()),
     provideCharts(withDefaultRegisterables()),

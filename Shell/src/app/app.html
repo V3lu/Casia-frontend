@@ -1,5 +1,7 @@
-<app-sidebar></app-sidebar>
+@if (isAuthenticated()) {
+  <app-sidebar></app-sidebar>
+}
 <p-toast position="top-right"></p-toast>
 <main class="app-content">
-	<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </main>
