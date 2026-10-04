@@ -15,20 +15,20 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  readonly email = signal('');
+  readonly username = signal('');
   readonly password = signal('');
   readonly authError = signal('');
 
   login(): void {
-    const normalizedEmail = this.email().trim();
+    const normalizedUsername = this.username().trim();
     const enteredPassword = this.password();
 
-    if (!normalizedEmail || !enteredPassword) {
-      this.authError.set('Please enter both email and password.');
+    if (!normalizedUsername || !enteredPassword) {
+      this.authError.set('Please enter both username and password.');
       return;
     }
 
-    this.authService.login(normalizedEmail, enteredPassword).subscribe({
+    this.authService.login(normalizedUsername, enteredPassword).subscribe({
       next: () => this.router.navigateByUrl('/Dashboard'),
       error: () => this.authError.set('The backend rejected the login request. Please verify your credentials and try again.'),
     });

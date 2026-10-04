@@ -12,10 +12,10 @@ export class AuthService {
   private readonly currentUserService = inject(CurrentUserService);
   private readonly router = inject(Router);
 
-  login(email: string, password: string): Observable<boolean> {
-    const normalizedEmail = email.trim();
+  login(username: string, password: string): Observable<boolean> {
+    const normalizedUsername = username.trim();
 
-    if (!normalizedEmail || !password) {
+    if (!normalizedUsername || !password) {
       return new Observable<boolean>((observer) => {
         observer.next(false);
         observer.complete();
@@ -23,7 +23,7 @@ export class AuthService {
     }
 
     const request: LoginRequest = {
-      email: normalizedEmail,
+      username: normalizedUsername,
       password,
     };
 

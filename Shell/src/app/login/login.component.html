@@ -11,11 +11,11 @@
     </ng-template>
 
     <div class="login-form">
-      <label for="email">Email</label>
-      <input id="email" pInputText type="email" [value]="email()" (input)="email.set($any($event.target).value)" placeholder="admin@casia.local" />
+      <label for="username">Username</label>
+      <input id="username" pInputText type="text" autocomplete="username" [value]="username()" (input)="username.set($any($event.target).value)" placeholder="admin" />
 
       <label for="password">Password</label>
-      <input id="password" pInputText type="password" [value]="password()" (input)="password.set($any($event.target).value)" placeholder="admin123" />
+      <input id="password" pInputText type="password" autocomplete="current-password" [value]="password()" (input)="password.set($any($event.target).value)" placeholder="Password" />
 
       @if (authError()) {
         <p class="login-error">{{ authError() }}</p>

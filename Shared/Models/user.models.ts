@@ -14,7 +14,7 @@ export interface AuthSession {
 }
 
 export interface LoginRequest {
-    email: string;
+    username: string;
     password: string;
 }
 
