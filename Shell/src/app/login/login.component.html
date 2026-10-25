@@ -10,7 +10,7 @@
       </div>
     </ng-template>
 
-    <div class="login-form">
+    <form class="login-form" (submit)="$event.preventDefault(); login()">
       <label for="username">Username</label>
       <input id="username" pInputText type="text" autocomplete="username" [value]="username()" (input)="username.set($any($event.target).value)" placeholder="admin" />
 
@@ -21,7 +21,7 @@
         <p class="login-error">{{ authError() }}</p>
       }
 
-      <p-button label="Sign in" icon="pi pi-sign-in" (onClick)="login()" styleClass="login-submit"></p-button>
-    </div>
+      <p-button label="Sign in" icon="pi pi-sign-in" type="submit" [loading]="isSubmitting()" [disabled]="isSubmitting()" styleClass="login-submit"></p-button>
+    </form>
   </p-card>
 </div>

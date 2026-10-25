@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import type { ChartData, ChartOptions } from 'chart.js';
@@ -8,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DividerModule } from 'primeng/divider';
+import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -17,7 +19,7 @@ import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconne
 import { MainAPIConnectorService } from 'Shared/Services/main-apiconnector.service';
 import { OperationsAPIConnectorService } from 'Shared/Services/operations-apiconnector.service';
 import { SystemAPIConnectorService } from 'Shared/Services/system-apiconnector.service';
-import { AnalyticsReportDto, DashboardSummaryDto, NotificationsResponse, OrdersSummaryResponse, ProductDto } from 'Shared/Models';
+import { AnalyticsReportDto, DashboardSummaryDto, NotificationDto, NotificationsResponse, OrdersSummaryResponse, ProductDto } from 'Shared/Models';
 
 type SummaryCard = {
   title: string;
@@ -31,7 +33,7 @@ type SummaryCard = {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ToolbarModule, CardModule, ButtonModule, InputTextModule, DatePickerModule, ChartModule, TableModule, TagModule, AvatarModule, DividerModule],
+  imports: [ToolbarModule, CardModule, ButtonModule, InputTextModule, DatePickerModule, ChartModule, TableModule, TagModule, AvatarModule, DividerModule, DialogModule, DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -43,6 +45,11 @@ export class DashboardComponent {
   private readonly operationsApiConnector = inject(OperationsAPIConnectorService);
   private readonly systemApiConnector = inject(SystemAPIConnectorService);
 
+  readonly isLoading = signal(false);
+  readonly hasError = signal(false);
+  readonly notifications = signal<NotificationDto[]>([]);
+  readonly notificationsVisible = signal(false);
+
   readonly quickActions = [
     { label: 'View analytics', icon: 'pi pi-chart-line', action: () => this.openAnalytics() },
     { label: 'Manage products', icon: 'pi pi-box', action: () => this.openProducts() },
@@ -51,11 +58,25 @@ export class DashboardComponent {
   ];
 
   refreshDashboard(): void {
-    this.mainApiConnector.getDashboardSummary().subscribe();
+    this.isLoading.set(true);
+    this.hasError.set(false);
+    this.mainApiConnector.getDashboardSummary().subscribe({
+      next: () => this.isLoading.set(false),
+      error: () => {
+        this.isLoading.set(false);
+        this.hasError.set(true);
+      },
+    });
   }
 
   openNotifications(): void {
-    this.systemApiConnector.getNotifications().subscribe();
+    this.systemApiConnector.getNotifications().subscribe({
+      next: (response) => {
+        this.notifications.set(Array.isArray(response) ? response : response.notifications ?? []);
+        this.notificationsVisible.set(true);
+      },
+      error: () => this.notificationsVisible.set(true),
+    });
   }
 
   openAnalytics(): void {

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { describe, it, expect, beforeEach } from 'vitest';
 import { CurrentUserService } from './current-user.service';
 
 describe('CurrentUserService', () => {
@@ -31,5 +30,16 @@ describe('CurrentUserService', () => {
     service.logout();
 
     expect(service.isAuthenticated()).toBe(false);
+  });
+
+  it('expires a persisted session and clears its credentials', () => {
+    service.setSession({
+      token: 'expired-token',
+      expiresAt: new Date(Date.now() - 1_000).toISOString(),
+      user: { id: 'usr-2', firstName: 'Expired', lastName: 'User', role: 'Sales' },
+    });
+
+    expect(service.isAuthenticated()).toBe(false);
+    expect(service.getToken()).toBeNull();
   });
 });

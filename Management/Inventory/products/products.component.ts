@@ -11,6 +11,7 @@ import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AddProductRequest, CategoryDto, CommandResponse, ProductDto } from 'Shared/Models/inventory.models';
 import { InventoryAPIConnectorService } from 'Shared/Services/inventory-apiconnector.service';
+import { ApiNotificationService } from 'Shared/Services/api-notification.service';
 
 type ProductDraft = Partial<ProductDto> & Partial<AddProductRequest>;
 
@@ -33,6 +34,7 @@ type ProductDraft = Partial<ProductDto> & Partial<AddProductRequest>;
 })
 export class ProductsComponent implements OnInit {
   private readonly inventoryApiConnector = inject(InventoryAPIConnectorService);
+  private readonly notificationService = inject(ApiNotificationService);
 
   readonly summaryTiles = [
     { label: 'Active SKUs', value: '1,245', note: 'Currently visible in catalog' },
@@ -108,6 +110,7 @@ export class ProductsComponent implements OnInit {
       },
       error: () => {
         this.products.set(this.normalizeProducts(this.getFallbackProducts()));
+        this.notificationService.error('Products unavailable', 'Showing fallback product data. Try refreshing when the service is available.');
       },
     });
   }
@@ -119,6 +122,7 @@ export class ProductsComponent implements OnInit {
       },
       error: () => {
         this.categories.set(this.getFallbackCategories());
+        this.notificationService.error('Categories unavailable', 'Product categories could not be loaded.');
       },
     });
   }
@@ -152,15 +156,10 @@ export class ProductsComponent implements OnInit {
         }
 
         this.showProductDialog.set(false);
+        this.notificationService.success(this.isEditing() ? 'Product updated' : 'Product added', `${name} was saved successfully.`);
       },
       error: () => {
-        if (this.isEditing()) {
-          this.products.update((products) => products.map((item) => (item.id === payload.id ? this.toProduct(item, payload) : item)));
-        } else {
-          this.products.update((products) => [this.toProduct({} as ProductDto, payload), ...products]);
-        }
-
-        this.showProductDialog.set(false);
+        this.notificationService.error('Product not saved', 'The server rejected this change. Your existing product list was preserved.');
       },
     });
   }
@@ -169,9 +168,10 @@ export class ProductsComponent implements OnInit {
     this.inventoryApiConnector.deleteProduct(productId).subscribe({
       next: () => {
         this.products.update((products) => products.filter((product) => product.id !== productId));
+        this.notificationService.success('Product deleted', 'The product was removed successfully.');
       },
       error: () => {
-        this.products.update((products) => products.filter((product) => product.id !== productId));
+        this.notificationService.error('Product not deleted', 'The server rejected the deletion. The product remains in the list.');
       },
     });
   }

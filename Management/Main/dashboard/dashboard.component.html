@@ -28,6 +28,13 @@
         </ng-template>
     </p-toolbar>
 
+    @if (isLoading()) {
+        <p class="dashboard-status" role="status">Refreshing dashboard...</p>
+    }
+    @if (hasError()) {
+        <p class="dashboard-status dashboard-status--error" role="alert">Dashboard data could not be refreshed. Try again.</p>
+    }
+
     <section class="dashboard-section dashboard-section--overview" aria-labelledby="overview-section-title">
         <h3 id="overview-section-title" class="dashboard-section__label">Operations overview</h3>
         <div class="hero-grid">
@@ -145,4 +152,20 @@
         </div>
     </section>
 </div>
+
+<p-dialog header="Notifications" [visible]="notificationsVisible()" (visibleChange)="notificationsVisible.set($event)" [modal]="true" [style]="{ width: 'min(32rem, 92vw)' }">
+    @if (notifications().length) {
+        <div class="notification-list">
+            @for (notification of notifications(); track notification.id ?? notification.title) {
+                <article class="notification-item" [class.notification-item--read]="notification.read">
+                    <strong>{{ notification.title ?? 'Notification' }}</strong>
+                    <p>{{ notification.message ?? 'No additional details.' }}</p>
+                    @if (notification.createdAt) { <small>{{ notification.createdAt | date:'medium' }}</small> }
+                </article>
+            }
+        </div>
+    } @else {
+        <p role="status">You are all caught up.</p>
+    }
+</p-dialog>
 

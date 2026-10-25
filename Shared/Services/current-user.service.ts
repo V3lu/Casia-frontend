@@ -5,6 +5,7 @@ import { AuthSession, User } from '../Models';
 export class CurrentUserService {
   private readonly userStorageKey = 'casia-current-user';
   private readonly tokenStorageKey = 'casia-auth-token';
+  private readonly expiryStorageKey = 'casia-auth-expires-at';
   private readonly currentUser = signal<User | null>(this.readPersistedUser());
   readonly user = this.currentUser.asReadonly();
   readonly isAuthenticatedSignal = computed(() => this.isAuthenticated());
@@ -18,6 +19,7 @@ export class CurrentUserService {
     this.currentUser.set(session.user ?? null);
     this.persistUser(session.user ?? null);
     this.persistToken(session.token);
+    this.persistExpiry(session.expiresAt ?? null);
   }
 
   login(user: User): void {
@@ -29,6 +31,7 @@ export class CurrentUserService {
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(this.userStorageKey);
       window.localStorage.removeItem(this.tokenStorageKey);
+      window.localStorage.removeItem(this.expiryStorageKey);
     }
   }
 
@@ -45,7 +48,17 @@ export class CurrentUserService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    const sessionExpiry = this.readExpiry();
+
+    if (!token || (sessionExpiry !== null && sessionExpiry <= Date.now())) {
+      if (token) {
+        this.logout();
+      }
+      return false;
+    }
+
+    return true;
   }
 
   hasRole(role: string | string[]): boolean {
@@ -82,6 +95,33 @@ export class CurrentUserService {
     }
 
     window.localStorage.setItem(this.tokenStorageKey, token);
+  }
+
+  private persistExpiry(expiresAt: string | null): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    if (!expiresAt) {
+      window.localStorage.removeItem(this.expiryStorageKey);
+      return;
+    }
+
+    window.localStorage.setItem(this.expiryStorageKey, expiresAt);
+  }
+
+  private readExpiry(): number | null {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const storedExpiry = window.localStorage.getItem(this.expiryStorageKey);
+    if (!storedExpiry) {
+      return null;
+    }
+
+    const expiry = Date.parse(storedExpiry);
+    return Number.isNaN(expiry) ? null : expiry;
   }
 
   private readPersistedUser(): User | null {

@@ -18,6 +18,7 @@ export class LoginComponent {
   readonly username = signal('');
   readonly password = signal('');
   readonly authError = signal('');
+  readonly isSubmitting = signal(false);
 
   login(): void {
     const normalizedUsername = this.username().trim();
@@ -28,9 +29,19 @@ export class LoginComponent {
       return;
     }
 
+    if (this.isSubmitting()) {
+      return;
+    }
+
+    this.authError.set('');
+    this.isSubmitting.set(true);
+
     this.authService.login(normalizedUsername, enteredPassword).subscribe({
       next: () => this.router.navigateByUrl('/Dashboard'),
-      error: () => this.authError.set('The backend rejected the login request. Please verify your credentials and try again.'),
+      error: () => {
+        this.authError.set('The backend rejected the login request. Please verify your credentials and try again.');
+        this.isSubmitting.set(false);
+      },
     });
   }
 }
